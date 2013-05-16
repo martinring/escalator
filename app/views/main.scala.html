@@ -1,0 +1,38 @@
+@(content: String)
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>eSCALAtor</title>
+      <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+      <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+      <script type="text/javascript" src="//use.typekit.net/uwg7nqg.js"></script>
+      <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+      <script src="@routes.Assets.at("javascripts/routes.js")" type="text/javascript"></script>
+      <script src="@routes.Assets.at("javascripts/jquery.js")" type="text/javascript"></script>
+      <script src="@routes.Assets.at("javascripts/codemirror/codemirror.js")" type="text/javascript"></script>
+      <script src="@routes.Assets.at("javascripts/codemirror/addon/runmode/runmode.js")" type="text/javascript"></script>
+      <script src="@routes.Assets.at("javascripts/codemirror/addon/search/search.js")" type="text/javascript"></script>
+      <script src="@routes.Assets.at("javascripts/codemirror/addon/dialog/dialog.js")" type="text/javascript"></script>
+      <script src="@routes.Assets.at("javascripts/codemirror/addon/hint/show-hint.js")" type="text/javascript"></script>
+      <script src="@routes.Assets.at("javascripts/codemirror/mode/clike/clike.js")" type="text/javascript"></script>
+      <script src="@routes.Assets.at("javascripts/main.js")" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="container">
+      <h1 contenteditable="true">Welcome to the Escalator</h1>
+      <p contenteditable="true">Type your Scala code here and evaluate it with CTRL-Enter. Limited autocompletion is available via CTRL-Space. More features will come soon.</p><p>Please report any bugs you might encounter at the <a href="#">github repo</a>.</p>      
+      <div id="flow" class="cm-s-default">
+      </div>      
+      <div class="editor">
+        <form>
+          <textarea id='code' name='code'>@content</textarea     
+        </form>
+      </div>
+      <div class="buttons">
+        <button>Clear</button>
+        <button class="default">Run</button>
+      </div>
+      <p>&copy; 2013 by Martin Ring</p>
+    </div>
+  </body>
+</html>
