@@ -1,4 +1,14 @@
 logs
+.*
+# except for .gitignore
+!.gitignore
+db
+eclipse
+lib
+log
+logs
+modules
+precompiled
 project/project
 project/target
 target
@@ -13,3 +23,7 @@ dist
 /.project
 /RUNNING_PID
 /.settings
+test-result
+server.pid
+*.iml
+*.eml
