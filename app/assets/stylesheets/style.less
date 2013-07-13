@@ -1,0 +1,124 @@
+
+
+.linear-gradient(@bg, @from, @to) {
+  background: @from;
+  background: -moz-linear-gradient(top,  @from 0%, @to 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@from), color-stop(100%,@to));
+  background: -webkit-linear-gradient(top,  @from 0%,@to 100%);
+  background: -o-linear-gradient(top,  @from 0%,@to 100%);
+  background: -ms-linear-gradient(top,  @from 0%,@to 100%);
+  background: linear-gradient(to bottom,  @from 0%,@to 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@from', endColorstr='@to',GradientType=0);
+}
+
+
+
+
+@sidebar: 200px;
+
+
+
+
+
+
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background-color: #444444;
+  font-family: 'Open Sans', sans-serif;
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  .linear-gradient(#333333, #3F3F3F, #222222);
+  border-bottom: 1px solid #555555;
+  z-index: 4;
+  color: #999;
+}
+
+
+
+/* Sidebar Navigation */
+
+
+
+#sidebar {
+  z-index: 2;
+  position: fixed;
+  top: 81px;
+  left: 0;
+  width: @sidebar;
+  font-size: 14px;
+
+
+  ul {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    width: @sidebar;
+    border-top: 1px solid #393939;
+    border-bottom: 1px solid #4E4E4E;
+    li {
+      display: block;
+      border-top: 1px solid #4E4E4E;
+      border-bottom: 1px solid #393939;
+      &.active {
+        .linear-gradient(#3a3a3a, #333333, #3F3F3F);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2) inset;
+      }
+      a {
+        padding: 10px 15px;
+        display: block;
+        color: #aaaaaa;
+        text-decoration: none;
+        &:hover { background-color: #4a4a4a; }
+      }
+      i {
+        margin-right: 10px;
+        width: 15px;
+        display: inline-block;
+        text-align: center;
+      }
+      .shortcut {
+        color: #666666;
+        float: right;
+        font-size: 12px;
+        line-height: 14px;
+      }
+    }
+  }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#content {
+  background-color: #eeeeee;
+  margin: 10px 0 0 @sidebar;
+padding: 1em;
+border-radius: 10px 0 0 0;
+position: relative;
+z-index: 8;
+}
