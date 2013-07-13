@@ -32,57 +32,35 @@ object REPLSecurityManager extends SecurityManager {
 }
 
 object Scala extends Controller {
-  def session = WebSocket.using[String] { request =>    
-    val (out,channel) = Concurrent.broadcast[String]
-    val settings = new Settings
-    settings.bootclasspath.value += scala.tools.util.PathResolver.Environment.javaBootClassPath + File.pathSeparator + "lib/scala-library-2.10.0.jar"
-    val output = new StringBuilder
-    val interpreter = new IMain(settings, new PrintWriter(new OutputStream {
-      def write(b: Int): Unit = {
-        output += b.toChar
-      }
-    }))    
-    val completer = new JLineCompletion(interpreter).completer()
-    val in = Iteratee.foreach[String]{ msg => 
+  def session = WebSocket.using[String] { request =>
+    val console = new models.Console
+    val (out, channel) = Concurrent.broadcast[String]
+    val in = Iteratee.foreach[String]{ msg =>
       println(msg)
-      val (mod,code) = msg.splitAt(1)
-      mod match {
+      val (mode, code) = msg.splitAt(1)
+      mode match {
         case "+" =>
-          System.setSecurityManager(REPLSecurityManager)          
+          System.setSecurityManager(REPLSecurityManager)
           val lines = new StringBuilder
           code.split('\n').foreach { line =>
             if (lines.isEmpty) lines.append(line) else lines.append("\n"+line)
             println("interpreting: '"+lines+"'")
             try {
-              val ir = interpreter.interpret(lines.mkString)
-              ir match {
-                case Results.Error =>
-                  println("-" + output.mkString)
-                  channel.push("-" + output.mkString)
-                  output.clear()
-                  lines.clear()
-                case Results.Incomplete => 
-                  println(".")
-                  channel.push(".")                
-                case Results.Success => 
-                  println("+"+ output.mkString)
-                  channel.push("+" + output.mkString)
-                  output.clear()
-                  lines.clear()
-              }
+              val result = console.interpret(lines.mkString)
+              result pushToStr channel
             } catch {
-              case e: SecurityException =>                
+              case e: SecurityException =>
                 channel.push("-Very funny! Don't try that again!")
-            }	            	            
+            }
           }
           lines.clear()
         case "-" => 
         case "m" => 
         case "?" =>
-          val (pos,buf) = code.span(_ != ':')
-          val candidates = completer.complete(buf.tail, Integer.parseInt(pos))
-          channel.push("?" + candidates.cursor + ":" + candidates.candidates.mkString(";"))
-      }       
+          val (pos, buf) = code.span(_ != ':')
+          val result = console.complete(buf.tail, Integer.parseInt(pos))
+          result pushToStr channel
+      }
     } 
     (in,out)
   }
