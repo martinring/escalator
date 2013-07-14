@@ -1,30 +1,9 @@
+@import 'util/helpers.less';
+@import 'util/variables.less';
 
 
 
-
-
-
-.linear-gradient(@bg, @from, @to) {
-  background: @from;
-  background: -moz-linear-gradient(top,  @from 0%, @to 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@from), color-stop(100%,@to));
-  background: -webkit-linear-gradient(top,  @from 0%,@to 100%);
-  background: -o-linear-gradient(top,  @from 0%,@to 100%);
-  background: -ms-linear-gradient(top,  @from 0%,@to 100%);
-  background: linear-gradient(to bottom,  @from 0%,@to 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@from', endColorstr='@to',GradientType=0);
-}
-
-
-
-
-@sidebar: 220px;
-
-
-
-
-
-
+/* Layout */
 
 html {
   height: 100%;
@@ -42,14 +21,15 @@ body {
   left: 0;
   width: 100%;
   height: 92px;
-  .linear-gradient(#333333, #3F3F3F, #222222);
   border-bottom: 1px solid #555555;
   z-index: 4;
+  .linear-gradient(#333333, #3F3F3F, #222222);
 }
 
 #logo {
   text-align: right;
   width: @sidebar;
+  
   img {
     height: 72px;
     margin: 10px 15px 10px 0;
@@ -58,81 +38,13 @@ body {
 
 
 
+/* Sidebar */
 
-
-
-/* Sidebar Navigation */
-
-
-
-#sidebar {
-  z-index: 2;
-  position: fixed;
-  top: 93px;
-  left: 0;
-  width: @sidebar;
-  font-size: 14px;
-
-
-  ul {
-    list-style: none;
-    margin: 10px 0 0;
-    padding: 0;
-    width: @sidebar;
-    border-top: 1px solid #393939;
-    border-bottom: 1px solid #4E4E4E;
-
-    li {
-      display: block;
-      border-top: 1px solid #4E4E4E;
-      border-bottom: 1px solid #393939;
-
-      &.active {
-        .linear-gradient(#3a3a3a, #333333, #3F3F3F);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2) inset;
-      }
-
-      a {
-        padding: 10px 15px;
-        display: block;
-        color: #aaaaaa;
-        text-decoration: none;
-        &:hover { background-color: #4a4a4a; }
-      }
-
-      i {
-        margin-right: 10px;
-        width: 15px;
-        display: inline-block;
-        text-align: center;
-      }
-
-      .shortcut {
-        color: #666666;
-        float: right;
-        font-size: 12px;
-        line-height: 14px;
-      }
-    }
-  }
-
-
-}
-
-
-
-
-
+@import 'sidebar.less';
 
 
 
 /* Content */
-
-
-
-
-
-
 
 #content {
   position: absolute;
@@ -145,40 +57,4 @@ body {
   overflow: hidden;
 }
 
-#cmStage {
-  height: 100%;
-  background-color: #eeeeee;
-  .CodeMirror-lines {
-    padding: 8px 0;
-  }
-}
-
-#cmInput {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  overflow-y: hidden;
-  background-color: #f8f8f8;
-  .CodeMirror-lines {
-    padding: 8px 0;
-    border-top: 1px solid #cccccc;
-  }
-}
-
-.CodeMirror {
-  font: 300 16px/22px 'Inconsolata', monospace;
-  overflow-x: hidden;
-}
-
-.CodeMirror-gutters {
-  height: 100% !important;
-  border-right: 1px solid #cccccc;
-  background-color: #f8f8f8;
-}
-
-.CodeMirror-linenumber {
-  min-width: 25px;
-  color: #999999;
-}
+@import 'console.less';

@@ -1,0 +1,53 @@
+@import 'util/helpers.less';
+@import 'util/variables.less';
+
+#sidebar {
+  z-index: 2;
+  position: fixed;
+  top: 93px;
+  left: 0;
+  width: @sidebar;
+  font-size: 14px;
+  
+  ul {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    width: @sidebar;
+    border-top: 1px solid #393939;
+    border-bottom: 1px solid #4E4E4E;
+    
+    li {
+      display: block;
+      border-top: 1px solid #4E4E4E;
+      border-bottom: 1px solid #393939;
+      
+      &.active {
+        .linear-gradient(#3a3a3a, #333333, #3F3F3F);
+        .inner-box-shadow(0 2px 4px, 0.2);
+      }
+      
+      a {
+        padding: 10px 15px;
+        display: block;
+        color: #aaaaaa;
+        text-decoration: none;
+        &:hover { background-color: #4a4a4a; }
+      }
+      
+      i {
+        margin-right: 10px;
+        width: 15px;
+        display: inline-block;
+        text-align: center;
+      }
+      
+      .shortcut {
+        color: #666666;
+        float: right;
+        font-size: 12px;
+        line-height: 14px;
+      }
+    }
+  }
+}

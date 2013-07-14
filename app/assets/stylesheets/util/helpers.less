@@ -1,0 +1,32 @@
+.linear-gradient(@bg, @from, @to) {
+  background: @from;
+  background: -moz-linear-gradient(top,  @from 0%, @to 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@from), color-stop(100%,@to));
+  background: -webkit-linear-gradient(top,  @from 0%,@to 100%);
+  background: -o-linear-gradient(top,  @from 0%,@to 100%);
+  background: -ms-linear-gradient(top,  @from 0%,@to 100%);
+  background: linear-gradient(to bottom,  @from 0%,@to 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@from', endColorstr='@to',GradientType=0);
+}
+
+.inner-box-shadow(@style, @c) when (iscolor(@c)) {
+  -webkit-box-shadow: inset @style @c;
+  -moz-box-shadow: inset @style @c;
+  -ms-box-shadow: inset @style @c;
+  -o-box-shadow: inset @style @c;
+  box-shadow: inset @style @c;
+}
+.inner-box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {
+  .inner-box-shadow(@style, rgba(0, 0, 0, @alpha));
+}
+
+.outer-box-shadow(@style, @c) when (iscolor(@c)) {
+  -webkit-box-shadow: @style @c;
+  -moz-box-shadow: @style @c;
+  -ms-box-shadow: @style @c;
+  -o-box-shadow: @style @c;
+  box-shadow: @style @c;
+}
+.inner-box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {
+  .outer-box-shadow(@style, rgba(0, 0, 0, @alpha));
+}
