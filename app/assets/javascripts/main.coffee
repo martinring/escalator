@@ -7,6 +7,22 @@ cmStageLines = null
 
 $ ->
   cmInit()
+  $('#link-run').click((e) ->
+    e.preventDefault()
+    CodeMirror.commands.execute(cmInput)
+  )
+  $('.link-more').click((e) ->
+    e.preventDefault()
+    more = $(this).siblings('.more')
+    isClosed = more.css('display') is 'none';
+    $('#sidebar').find('.more').slideUp()
+    more.slideDown() if isClosed
+  )
+  
+  
+  
+  
+  
 
 cmInit = (theme = 'default') ->
   cmStageLines = []

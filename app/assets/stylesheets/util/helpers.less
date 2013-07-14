@@ -27,6 +27,6 @@
   -o-box-shadow: @style @c;
   box-shadow: @style @c;
 }
-.inner-box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {
+.outer-box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {
   .outer-box-shadow(@style, rgba(0, 0, 0, @alpha));
 }

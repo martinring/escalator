@@ -34,12 +34,25 @@
     </div>
     <div id="sidebar">
       <ul>
-        <li><a href=""><i class="icon-code"></i><span>Run</span><span class="shortcut">CTRL+Return</span></a></li>
-        <li><a href=""><i class="icon-edit"></i><span>Save/Update</span><span class="shortcut">CTRL+S</span></a></li>
-        <li><a href=""><i class="icon-code-fork"></i><span>Fork</span><span class="shortcut">CTRL+F</span></a></li>
-        <li><a href=""><i class="icon-link"></i><span>Share</span></a></li>
-        <li class="active"><a href=""><i class="icon-cogs"></i><span>Settings</span></a></li>
-        <li><a href=""><i class="icon-info"></i><span>About</span></a></li>
+        <li><a href="" id="link-run"><i class="icon-code"></i><span>Run</span><span class="shortcut">CTRL+Return</span></a></li>
+        <li><a href="" id="link-save"><i class="icon-edit"></i><span>Save/Update</span><span class="shortcut">CTRL+S</span></a></li>
+        <li><a href="" id="link-fork"><i class="icon-code-fork"></i><span>Fork</span><span class="shortcut">CTRL+F</span></a></li>
+        <li>
+          <a href="" id="link-share" class="link-more"><i class="icon-link"></i><span>Share</span></a>
+          <div class="more">Lorem ipsum dolor sit amet.</div>
+        </li>
+        <li>
+          <a href="" id="link-settings" class="link-more"><i class="icon-cogs"></i><span>Settings</span></a>
+          <div class="more">Lorem ipsum dolor sit amet.</div>
+        </li>
+        <li>
+          <a href="" id="link-about" class="link-more"><i class="icon-info"></i><span>About</span></a>
+          <div class="more">
+            <p>This project provides a Scala online REPL &ndash; an interactive read–eval–print loop for Scala directly in your browser!</p>
+            <p>Please report any bugs you might encounter via <a href="https://github.com/flatmap/escalator/issues">GitHub</a>.</p>
+            <p>&copy; 2013 by <a href="http://www.flatmap.net/">flatMap</a></p>
+          </div>
+        </li>
       </ul>
     </div>
     <div id="content"></div>
