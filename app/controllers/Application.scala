@@ -18,14 +18,14 @@ object Application extends Controller {
   def index = Action {
     //val name = Random.shuffle(adjectives).head +
     //           Random.shuffle(nouns).head
-    Ok(views.html.main(f"// start here\n"))
+    Ok(views.html.main(f"//start here\nHello\nworld"))
   }
   
   // -- Javascript routing
   def javascriptRoutes = Action { implicit request =>
     import routes.javascript._
     Ok(
-      Routes.javascriptRouter("routes")(        
+      Routes.javascriptRouter("routes")(
         Scala.session
       )
     ).as("text/javascript") 

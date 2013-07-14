@@ -1,5 +1,9 @@
 
 
+
+
+
+
 .linear-gradient(@bg, @from, @to) {
   background: @from;
   background: -moz-linear-gradient(top,  @from 0%, @to 100%);
@@ -14,7 +18,7 @@
 
 
 
-@sidebar: 200px;
+@sidebar: 220px;
 
 
 
@@ -37,12 +41,23 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 80px;
+  height: 92px;
   .linear-gradient(#333333, #3F3F3F, #222222);
   border-bottom: 1px solid #555555;
   z-index: 4;
-  color: #999;
 }
+
+#logo {
+  text-align: right;
+  width: @sidebar;
+  img {
+    height: 72px;
+    margin: 10px 15px 10px 0;
+  }
+}
+
+
+
 
 
 
@@ -53,7 +68,7 @@ body {
 #sidebar {
   z-index: 2;
   position: fixed;
-  top: 81px;
+  top: 93px;
   left: 0;
   width: @sidebar;
   font-size: 14px;
@@ -66,14 +81,17 @@ body {
     width: @sidebar;
     border-top: 1px solid #393939;
     border-bottom: 1px solid #4E4E4E;
+
     li {
       display: block;
       border-top: 1px solid #4E4E4E;
       border-bottom: 1px solid #393939;
+
       &.active {
         .linear-gradient(#3a3a3a, #333333, #3F3F3F);
         box-shadow: 0 2px 4px rgba(0,0,0,0.2) inset;
       }
+
       a {
         padding: 10px 15px;
         display: block;
@@ -81,12 +99,14 @@ body {
         text-decoration: none;
         &:hover { background-color: #4a4a4a; }
       }
+
       i {
         margin-right: 10px;
         width: 15px;
         display: inline-block;
         text-align: center;
       }
+
       .shortcut {
         color: #666666;
         float: right;
@@ -106,7 +126,7 @@ body {
 
 
 
-
+/* Content */
 
 
 
@@ -115,10 +135,50 @@ body {
 
 
 #content {
+  position: absolute;
+  left: @sidebar;
+  right: 0;
+  top: 15px;
+  bottom: 0;
+  border-radius: 10px 0 0 0;
+  z-index: 8;
+  overflow: hidden;
+}
+
+#cmStage {
+  height: 100%;
   background-color: #eeeeee;
-  margin: 10px 0 0 @sidebar;
-padding: 1em;
-border-radius: 10px 0 0 0;
-position: relative;
-z-index: 8;
+  .CodeMirror-lines {
+    padding: 8px 0;
+  }
+}
+
+#cmInput {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  overflow-y: hidden;
+  background-color: #f8f8f8;
+  .CodeMirror-lines {
+    padding: 8px 0;
+    border-top: 1px solid #cccccc;
+  }
+}
+
+.CodeMirror {
+  font: 300 16px/22px 'Inconsolata', monospace;
+  overflow-x: hidden;
+}
+
+.CodeMirror-gutters {
+  height: 100% !important;
+  border-right: 1px solid #cccccc;
+  background-color: #f8f8f8;
+}
+
+.CodeMirror-linenumber {
+  min-width: 25px;
+  color: #999999;
 }

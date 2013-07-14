@@ -3,7 +3,7 @@
 
 <html>
   <head>
-    <title>eSCALAtor</title>
+    <title>Scala Line | The online Scala REPL</title>
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
@@ -27,8 +27,11 @@
   </head>
   
   <body>
-    <div id="header">some nice logo</div>
-    
+    <div id="header">
+      <div id="logo">
+        <a href="@routes.Application.index()"><img src="@routes.Assets.at("images/escalator.png")" alt="logo"></a>
+      </div>
+    </div>
     <div id="sidebar">
       <ul>
         <li><a href=""><i class="icon-code"></i><span>Run</span><span class="shortcut">CTRL+Return</span></a></li>
@@ -39,15 +42,6 @@
         <li><a href=""><i class="icon-info"></i><span>About</span></a></li>
       </ul>
     </div>
-    
-    <div id="content">
-      <div id="flow" class="cm-s-default"></div>
-      <div class="editor">
-        <form>
-          <textarea id="code" name="code">@content</textarea>
-        </form>
-      </div>
-    </div>
-    
+    <div id="content"></div>
   </body>
 </html>

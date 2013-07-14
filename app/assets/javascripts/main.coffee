@@ -1,25 +1,96 @@
-ws = new WebSocket(routes.controllers.Scala.session().webSocketURL())
 
-editor = null
-fline = 1
-line = 1
-code = ""
+socket = new WebSocket(routes.controllers.Scala.session().webSocketURL())
 
-CodeMirror.commands.execute = (cm) ->
-  editor = cm
-  cm.setOption('readonly',true)
-  fline = line
-  ffline = line
-  ws.send('+'+cm.getDoc().getValue())
+cmStage = null
+cmInput = null
+cmStageLines = null
+
+$ ->
+  cmInit()
+
+cmInit = (theme = 'default') ->
+  cmStageLines = []
+  cmStageOptions =
+    value: ''
+    mode: 'text/x-scala'
+    theme: theme
+    readOnly: true
+    autofocus: false
+    matchBrackets: true
+    lineWrapping: true
+    lineNumbers: true
+    firstLineNumber: 0
+    lineNumberFormatter: (line) ->
+      idx = cmStageLines.indexOf(line)
+      if idx < 0 then '' else idx + 1
+  cmInputOptions =
+    value: ''
+    mode: 'text/x-scala'
+    theme: theme
+    indentUnit: 2
+    smartIndent: false
+    indentWithTabs: false
+    lineWrapping: true
+    lineNumbers: true
+    firstLineNumber: 1
+    readOnly: false
+    undoDepth: 32
+    tabindex: 1
+    autofocus: true
+    dragDrop: false
+    matchBrackets: true
+    extraKeys:
+      'Ctrl-Enter'     : 'execute'
+      'Ctrl-Space'     : 'autocomplete'
+      'Ctrl-Backspace' : 'clear'
+  cmStage = CodeMirror(document.getElementById("content"), cmStageOptions)
+  cmInput = CodeMirror(document.getElementById("content"), cmInputOptions)
+  editors = $('#content').children('.CodeMirror')
+  $(editors[0]).attr('id', 'cmStage')
+  $(editors[1]).attr('id', 'cmInput')
+
+
+
+
+# status:
+# 0 = code with linenumber
+
+cmPrint = (text, status) ->
+  cmDoc = cmStage.getDoc()
+  txtSize = text.split('\n').length
+  if cmDoc.getValue() is ''
+    cmLines = [0...txtSize]
+    cmFrom =
+      line: 0
+      ch: 0
+  else
+    text = '\n' + text
+    cmSize = cmDoc.lineCount()
+    cmLines = [cmSize...(cmSize + txtSize)]
+    cmFrom =
+      line: cmSize - 1
+      ch: cmDoc.getLine(cmSize - 1).length
+  cmStageLines = cmStageLines.concat(cmLines) if status is 0
+  cmDoc.replaceRange(text, cmFrom)
+  cmInput.setOption('firstLineNumber', cmStageLines.length + 1)
+
+
+
+
+
+
+
+
   
-ws.onmessage = (e) -> #if lastEditor?    
+socket.onmessage = (e) ->
   type   = e.data[0]
   result = e.data[1..]
   if type is '?'
     i = result.indexOf(':')
     pos = parseInt(result[0..i])
     cs = result[i+1..].split(';')
-    CodeMirror.showHint(editor,(cm,opt) ->
+    CodeMirror.showHint(cmInput, (cm, opt) ->
+      console.log cm
       doc = cm.getDoc()
       from = doc.posFromIndex(pos)
       to = doc.getCursor()
@@ -28,55 +99,24 @@ ws.onmessage = (e) -> #if lastEditor?
         list: cs.filter((s) -> s.substring(0,text.length) is text)
         from: from
         to: to)
-      )            
+      )
   else
-    doc = editor.getDoc()
-    if code is '' and doc.getLine(line - fline) is ''
-      fline += 1
-      editor.removeLine(0)      
-    else
-      code += '\n' + doc.getLine(line - fline)
-    line += 1
-    editor.setOption('firstLineNumber',line)
-    console.log(line,e.data,code)  
-    switch type
-      when '+'
-        neditor = CodeMirror document.getElementById("flow"),
-          value: code[1..]
-          lineNumbers: true
-          firstLineNumber: fline
-          mode: 'text/x-scala'
-          readOnly: 'nocursor'
-        $('#flow').append("<pre class='ok'>#{result}</pre>")
-        while fline < line 
-          editor.removeLine(0)
-          fline += 1      
-        code = ""
-      when '-'
-        neditor = CodeMirror document.getElementById("flow"),
-          value: code[1..]
-          lineNumbers: true   
-          firstLineNumber: fline 
-          mode: 'text/x-scala'
-          readOnly: 'nocursor'          
-        $('#flow').append("<pre class='error'>#{result}</pre>")
-        while fline < line 
-          editor.removeLine(0)
-          fline += 1
-        code = ""      
+    cmPrint(result, type)
+
+
+
+
+
+CodeMirror.commands.execute = (cm) ->
+  msg = cm.getDoc().getValue()
+  socket.send('+' + msg)
+  cmPrint(msg, 0)
+  cm.setValue('')
 
 CodeMirror.commands.autocomplete = (cm) ->
-  editor = cm
   doc = cm.getDoc()
   cur = doc.getCursor()
-  ws.send("?" + doc.indexFromPos(cur) + ":" + cm.getDoc().getValue())
+  socket.send("?" + doc.indexFromPos(cur) + ":" + cm.getDoc().getValue())
 
-$ ->  
-  editor = CodeMirror.fromTextArea document.getElementById("code"),
-    lineNumbers: true
-    matchBrackets: true
-    mode: 'text/x-scala'
-    autofocus: true
-    extraKeys:
-      'Ctrl-Enter' : 'execute'
-      'Ctrl-Space' : 'autocomplete'  
+CodeMirror.commands.clear = (cm) ->
+  cm.getDoc().setValue('')
